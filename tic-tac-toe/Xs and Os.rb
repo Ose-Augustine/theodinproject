@@ -7,6 +7,17 @@ class TicTacToe
         @name = name
         @@current_players += 1
     end
+    def self.request_player_identity
+        player1=gets.chomp
+        player2=gets.chomp
+    end
+    def self.start_game
+        p "Welcome, shall we begin?"
+        board=self.generate_board
+        p "The board for this game #{board}"
+        p "Registrations please"
+        self.request_player_identity
+    end
     def self.generate_board
         return @@board
     end
@@ -22,8 +33,12 @@ class TicTacToe
     end
 end
 
-p TicTacToe.generate_board
-player1=TicTacToe.new("amaka")
-p TicTacToe.player_count
-p player1.populate_board('x',0,0)
-p player1.empty_boxes?
+# p TicTacToe.generate_board
+# player1=TicTacToe.new("amaka")
+player2=TicTacToe.new("james")
+# p TicTacToe.player_count
+# p player1.populate_board('x',0,0)
+ p player2.populate_board('o',0,1)
+# p player1.empty_boxes?
+TicTacToe.start_game
+TicTacToe.request_player_identity
