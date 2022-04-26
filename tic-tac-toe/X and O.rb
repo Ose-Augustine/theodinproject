@@ -20,21 +20,25 @@ class Umpire
         pattern 
     end
 end
-class Player < Umpire
+class Play < Umpire
     @@board=Umpire.generate_board
-    def empty_boxes?
+    def self.empty_boxes?
         @@board.any? {|element| element.include?(nil)}
     end
-    def populate_board(player_choice,row_position,column_position)
+    def self.populate_board(player_choice,row_position,column_position)
         @@board[row_position][column_position]=player_choice
         @@board
+    end
+    while Play.empty_boxes? == true
+        player_choice=gets.chomp
+        row_position=gets.chomp.to_i
+        column_position=gets.chomp.to_i
+        p Play.populate_board(player_choice,row_position,column_position)
     end
 end
 
 umpire=Umpire.new
-player=Player.new
-p player.populate_board('x',0,0)
-p player.populate_board('o',0,1)
+player=Play.new
 # new_group=Umpire.new("james")
 # new_group.name
 # p Umpire.current_players
