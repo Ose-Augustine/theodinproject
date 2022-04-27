@@ -41,19 +41,30 @@ class Play < Umpire
         @@board[row_position][column_position]=player_choice
         @@board
     end
-    i=0
-    while Umpire.empty_boxes?(@@board) == true
-        5.times do
-            player_choice=gets.chomp
-            row_position=gets.chomp.to_i
-            column_position=gets.chomp.to_i
-            p Play.populate_board(player_choice,row_position,column_position)
-            unless Umpire.winner?(@@board)==nil
-              p Umpire.winner?(@@board)
-              @@board=generate_board
+    count_for_player1=0
+    count_for_player2=0
+    round_count=0
+    until round_count == 5
+        player_choice=gets.chomp
+        if player_choice.to_s=='0' 
+            player_choice='o'
+        end
+        row_position=gets.chomp.to_i
+        column_position=gets.chomp.to_i
+        p Play.populate_board(player_choice,row_position,column_position)
+        unless Umpire.winner?(@@board)==nil
+            p Umpire.winner?(@@board)
+            if Umpire.winner?(@@board).include?('one')
+                count_for_player1+=1
             end
+            if Umpire.winner?(@@board).include?('two')
+                count_for_player2+=1
+            end
+            round_count+=1
+            @@board=generate_board
         end
     end
+    count_for_player1 > count_for_player2 ? (p"Player one wins with #{count_for_player1} points") : (p"Player two wins with #{count_for_player2} points")
 end
 
 umpire=Umpire.new
