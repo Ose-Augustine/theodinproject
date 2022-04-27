@@ -1,9 +1,6 @@
 
 class Umpire
-    def initialize(name)
-        @name=name
-    end
-    def generate_board
+    def self.generate_board
         board= Array.new(3) {Array.new(3)}
         board 
     end 
@@ -25,33 +22,42 @@ class Umpire
         win_board=[vertical_1,vertical_2,vertical_3,diagonal_1,diagonal_2,horizontal_1,horizontal_2,horizontal_3]
         accumulator=''
         win_combination=[]
+        win_combination2=[]
         board.each {|nested| accumulator += nested.join}
         accumulator.length.times {|index| win_combination << index if accumulator[index,1]=='x'}
-        win_board.any? {|element| element==win_combination}
-
+        accumulator.length.times {|index| win_combination2 << index if accumulator[index,1]=='o' }
+        if win_board.any? {|element| element==win_combination}
+            return "Player one wins "
+        end
+        if win_board.any? {|element| element==win_combination2}
+            return "Player two wins "
+        end
     end
 end
 class Play < Umpire
-    board=generate_board
+    @@board=Umpire.generate_board
    
     def self.populate_board(player_choice,row_position,column_position)
         @@board[row_position][column_position]=player_choice
         @@board
     end
+    i=0
     while Umpire.empty_boxes?(@@board) == true
-        player_choice=gets.chomp
-        row_position=gets.chomp.to_i
-        column_position=gets.chomp.to_i
-        p Play.populate_board(player_choice,row_position,column_position)
-        if Umpire.winner?(@@board)==true then 
-            p "Player one wins "
-            break
+        5.times do
+            player_choice=gets.chomp
+            row_position=gets.chomp.to_i
+            column_position=gets.chomp.to_i
+            p Play.populate_board(player_choice,row_position,column_position)
+            unless Umpire.winner?(@@board)==nil
+              p Umpire.winner?(@@board)
+              @@board=generate_board
+            end
         end
     end
 end
 
-umpire=Umpire.new('james')
-player=Play.new('amka')
+umpire=Umpire.new
+player=Play.new
 # new_group=Umpire.new("james")
 # new_group.name
 # p Umpire.current_players
