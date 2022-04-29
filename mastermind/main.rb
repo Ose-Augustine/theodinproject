@@ -31,6 +31,21 @@ class CodeMaker < Mastermind
         end
     end
 end
+class CodeBreaker
+    def initialize(name)
+        @name=name
+    end
+    def populate_board(row_position)
+        p "What is your guess for this round?"
+        guess_combination=[]
+        4.times do
+            guess=gets.chomp
+            guess_combination.push(guess)
+        end
+    end
+    
+end
+
 #tests
 player=CodeMaker.new('emeka')
 game=Mastermind.new
