@@ -1,6 +1,10 @@
 class Mastermind
-    play_board=Array.new(9) {Array.new(4)}
+    @@play_board=Array.new(9) {Array.new(4,0)}
+    def display
+        @@play_board
+    end
 end
+
 class CodeMaker < Mastermind
     COLORS=['red','orange','white','purple','yellow']
     def initialize(name)
@@ -10,8 +14,13 @@ class CodeMaker < Mastermind
         code_maker_colors=COLORS.sample(4)#return any random 4 elements from array
     end
     def check_mastermind
+        check_board=@@play_board.select {|row| !row.include?(0)}
+        check_board
     end
 end
 
 player=CodeMaker.new('emeka')
+game=Mastermind.new
+p player.check_mastermind
+p game.display
 p player.random_from_colors
