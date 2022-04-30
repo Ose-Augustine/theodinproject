@@ -64,7 +64,7 @@ class CodeBreaker < CodeMaker
     def start_game
         p "The board for this game:"
         p @@play_board
-        until @@play_board.any? {|row| row.include?(0)}==false || check_mastermind.include?('won')
+        until check_mastermind.include?('won') || @@play_board.any? {|row| row.include?(0)}==false
             p "What row position"
             position=gets.chomp
             #in case a string is input accidentally
@@ -82,26 +82,44 @@ class CodeBreaker < CodeMaker
 end
 class CodeBreakerAuto < CodeMaker
     include Mastermind
+    attr_reader :guess_combination_auto
     @@human_choice=human_preference
-    
+    @@guess_combination_auto=COLORS.sample(4)#initial guess to start with
     def populate_board_auto(row_position)
         p"Computer to guess please wait..."
-        guess_combination_auto=COLORS.sample(4)#initial guess to start with
         @@play_board[row_position]=guess_combination_auto
     end
     def human_feedback(board_position)#human to tell computer how close to breaking it is 
+        p"Computer asking for how many red pegs"
         red_peg=gets.chomp
+        p"Computer asking for how many white pegs"
         white_peg=gets.chomp
         return [red_peg,white_peg] 
+    def work_on_feedback
+        p"Working on it..."
+        i=0
+        populate_board_auto(i)
+        human_report=human_feedback(i)
+        if human_report.sum==4
+            p"I see I got all colours right..."
+            until guess_combination_auto==@@human_choice || @@play_board.any? {|row| row.include?(0)}==false
+                i+=1
+                guess_combination_auto.rotate!
+                populate_board_auto(i)
+                p"How about this?"
+                p @@play_board
+                human_report_1=human_feedback(i)
+            end
+            if guess_combination_auto==@@human_choice
+                p"CodeBreaker Wins this round."
+            end
+        end
+
     def start_game 
         p "The board for this game"
         p @@play_board
         p "The computer will play this guess round, please wait..."
-        i=0
-        while i < 12
-            populate_board(i)
-            peg_combo=human_feedback(@@play_board[i])
-
+        work_on_feedback
 
 #tests
 player=CodeMaker.new('james')
