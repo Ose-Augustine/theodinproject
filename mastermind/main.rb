@@ -123,7 +123,7 @@ class CodeBreaker < CodeMaker
                 end
                 board_location=position.to_i
             end
-            ####
+            ###
             populate_board(board_location)
             check_mastermind
             p @@play_board
