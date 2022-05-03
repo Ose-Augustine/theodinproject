@@ -33,7 +33,7 @@ module ComputerAlgorithm
     def computer_start_game
         p"Computer registers as code breaker!"
         p"Please input your code..."
-        human_code=gets.chomp
+        HumanFeedback.human_choice
         p computer_to_play_initially
         HumanFeedback.human_feedback
     end
@@ -46,10 +46,11 @@ module ComputerAlgorithm
         until current_feedback[0]==4
             p chosen_code
             current_feedback=HumanFeedback.human_feedback
-            p filtered_codes=examine_pegs(chosen_codes,current_feedback,chosen_code)
+            filtered_codes=examine_pegs(chosen_codes,current_feedback,chosen_code)
             chosen_codes=filtered_codes
             chosen_code=current_code_guess(filtered_codes)
         end
+        p"Codebreaker wins this round"
     end
 end
 

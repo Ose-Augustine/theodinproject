@@ -6,4 +6,7 @@ module HumanFeedback
         white_tag=gets.chomp
         [red_tag.to_i,white_tag.to_i]
     end
+    def human_choice
+        human_code=gets.chomp
+    end
 end

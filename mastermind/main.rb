@@ -83,17 +83,4 @@ end
 #tests
 player=CodeMaker.new('james')
 player2=CodeBreaker.new
-#p player.color
-#p CodeBreaker.coloured
-#CodeMaker.play_board
-#p player2.guess_combination
-# p player2.name
-# p player.name.is_a? String
-#player3=CodeBreakerAuto.new
-# player3.start_game
-# p player3.start_game
-# player.human_selection
 player2.start_game
-# p player.name 
-# p Mastermind::COLORS.sample(2)
-#p player2.guess_combination
