@@ -3,14 +3,8 @@ include HumanFeedback
 require 'pry-byebug'
 module ComputerAlgorithm 
     POSSIBLE_CODES=(1111..6666).to_a
-    def selected_codes(filters)
-        filters
-    end
     def computer_to_play_initially
         computer_initial_choice=1122
-    end
-    def knuths_algorithm(filtered_codes,feedback)
-    
     end
     def examine_pegs(chosen_codes,feedback,play)
         selected_codes=[]
@@ -58,6 +52,6 @@ module ComputerAlgorithm
         end
     end
 end
-#ComputerAlgorithm.examine_pegs([2,1],1122)
+
 
 
