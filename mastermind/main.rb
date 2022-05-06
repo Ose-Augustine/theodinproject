@@ -78,9 +78,3 @@ class CodeBreaker < CodeMaker
         end
     end
 end
-
-
-#tests
-player=CodeMaker.new('james')
-player2=CodeBreaker.new
-player2.start_game
