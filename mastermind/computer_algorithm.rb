@@ -1,6 +1,5 @@
 require_relative 'human_feedback.rb'
 include HumanFeedback
-require 'pry-byebug'
 module ComputerAlgorithm 
     POSSIBLE_CODES=(1111..6666).to_a
     def computer_to_play_initially

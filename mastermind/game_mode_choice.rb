@@ -2,7 +2,7 @@ require_relative 'main.rb'
 p"choose to play as code breaker or code maker. To play as code maker just type in CodeMaker and press enter.
 Same applies for CodeBreaker."
 choice=gets.chomp
-unless choice=='Codebreaker' || choice=='CodeMaker'
+unless choice=='CodeBreaker' || choice=='CodeMaker'
     p"Please input a valid game mode."
     choice=gets.chomp
 end
