@@ -7,7 +7,7 @@ class HangmanControls
 
     def required_length?(word)
         range = (5..20).to_a
-        range.include? word.length
+        range.include? word.chomp.length
     end
 
     def extract_random_guess_word
