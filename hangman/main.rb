@@ -47,6 +47,8 @@ class HangmanControls
         board_with_word = dashboard_for_guessing
         word  = board_with_word[1]
         board = board_with_word[0]
+        p"The board for this game"
+        p board
         wrong_guesses = []
         until i==6 || board.none? {|spaces| spaces=='-'}
             guess = Gamer.letter_guess
@@ -56,8 +58,13 @@ class HangmanControls
                 display_hangman_frame(i)
                 i+=1
             else
+                p"Correct guess"
                 board[word.index(guess)] = guess
-                word.delete_at(word.index(guess))
+                p"The board:"
+                p board
+                position_of_guess = word.index(guess)
+                word.delete!(word[position_of_guess])
+                p word
             end
         end
     end
@@ -75,4 +82,4 @@ class Gamer < HangmanControls
 end
 player1 = HangmanControls.new 
 player2 = Gamer.new("emeka")
-p player1.dashboard_for_guessing
+player1.start_game
