@@ -1,10 +1,10 @@
-INTRODUCTION
+# INTRODUCTION
 
 This is a rendition of the markdown game. Different features have been coded into the game for instances where the human or the computer is to be the code breaker or the human or computer is to be the code maker.
 
 The game does not keep tabs of the scores per round so players should do that the themselves following the generally known rules.
 
-HUMAN CODEBREAKER
+# HUMAN CODEBREAKER
 
  If the human is to be the code breaker, then the code maker class will be called with no instance variable. 
  
@@ -12,7 +12,7 @@ HUMAN CODEBREAKER
  
  The computer will prompt for the play to choose a certain colour combination for each round. For each colour choice, the computer will give a feed back of the number of red and white pegs obtained following a scan of the computer's own choice of colours that will remain unknown to the player.
 
-COMPUTER CODEBREAKER
+# COMPUTER CODEBREAKER
 
   If the computer is to be the code breaker, the code breaker class will have no instance variable. In order for the game to be interactive for the computer, a different algorithm of check and feedback will be used.
 
