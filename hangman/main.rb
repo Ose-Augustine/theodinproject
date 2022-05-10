@@ -29,11 +29,11 @@ class HangmanControls
     end
     
     def display_hangman_frame(position)
-        image = File.open('hangman_image.txt')
-        lines = image.readlines
-        frames = hangman_frames
+        image         = File.readlines('hangman_image.txt')
+        #lines         = image.readlines
+        frames        = hangman_frames
         display_frame = frames[position]
-        lines[display_frame].each do |line|
+        image[display_frame].each do |line|
             p line.chomp
         end
     end
@@ -43,29 +43,39 @@ class HangmanControls
     end
 
     def start_game
+        win_track = 0
         i = 0
         board_with_word = dashboard_for_guessing
-        word  = board_with_word[1]
-        board = board_with_word[0]
+        word            = board_with_word[1].split('')
+        board           = board_with_word[0]
+        real_word       = word.join('')
         p"The board for this game"
         p board
-        wrong_guesses = []
+        wrong_guesses   = []
         until i==6 || board.none? {|spaces| spaces=='-'}
             guess = Gamer.letter_guess
             if !check_guess?(word,guess)==true
                 wrong_guesses.push(guess)
-                p"Your wrong guesses: #{wrong_guesses}"
+                p"Your wrong guesses:"
+                p wrong_guesses
                 display_hangman_frame(i)
                 i+=1
             else
                 p"Correct guess"
+                win_track+=1
                 board[word.index(guess)] = guess
                 p"The board:"
                 p board
-                position_of_guess = word.index(guess)
-                word.delete!(word[position_of_guess])
-                p word
+                position_of_guess        = word.index(guess)
+                word[position_of_guess]  = nil
             end
+        end
+        if win_track == word.length
+            p"You win!"
+
+        else
+            p"The actual word was : #{real_word}"
+            p"You lose!"
         end
     end
 
@@ -76,10 +86,15 @@ class Gamer < HangmanControls
     end
     def self.letter_guess
         p"Guess a letter!"
-        guess = gets.chomp
+        guess = gets.chomp.downcase
+        unless guess.to_i == 0
+            p"Please input a valid guess"
+            guess = gets.chomp.downcase
+        end
         guess
     end
 end
 player1 = HangmanControls.new 
 player2 = Gamer.new("emeka")
 player1.start_game
+#p player1.dashboard_for_guessing
