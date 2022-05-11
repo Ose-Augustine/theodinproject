@@ -44,7 +44,17 @@ class HangmanControls
         word.include? letter 
     end
 
+    def final_display(word)
+        if win_track == word.length
+            p"You win!"
+        else
+            p"The actual word was : #{real_word}"
+            p"You lose!"
+        end
+    end
+
     def start_game
+        continue_game = ''
         win_track = 0
         i = 0
         board_with_word = dashboard_for_guessing
@@ -56,7 +66,11 @@ class HangmanControls
         wrong_guesses   = []
         until i==6 || board.none? {|spaces| spaces=='-'}
             guess  = Gamer.letter_guess
-            Gamer.game_condition(guess,i,board,wrong_guesses)
+            continue_game = Gamer.game_condition(guess,i,board,wrong_guesses)
+            if continue_game == 'saved'
+                p'Game saved!'
+                break
+            end
             if !check_guess?(word,guess)==true
                 wrong_guesses.push(guess)
                 p"Your wrong guesses:"
@@ -73,14 +87,11 @@ class HangmanControls
                 word[position_of_guess]  = nil
             end
         end
-        if win_track == word.length
-            p"You win!"
-
-        else
-            p"The actual word was : #{real_word}"
-            p"You lose!"
+        unless continue_game == 'saved'
+            final_display(word)
         end
     end
+
 
 end
 class Gamer 
@@ -102,6 +113,7 @@ class Gamer
     def self.game_condition(guess, i, board, wrong_guesses)
         if guess == 'save'
             save_game(wrong_guesses, i, board)
+            return 'saved'
         end
         if guess == 'load'
             load_game(name)
