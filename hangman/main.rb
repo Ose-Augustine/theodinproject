@@ -1,3 +1,6 @@
+require_relative 'game_start_sequence.rb'
+include LoadGame
+include SaveGame
 class HangmanControls
     def dashboard_for_guessing
         word  = extract_random_guess_word
@@ -11,7 +14,7 @@ class HangmanControls
     end
 
     def extract_random_guess_word
-        wordslist      = File.open('hangman_guess_words.txt')
+        wordslist      = File.open('./hangman_resources/hangman_guess_words.txt')
         lines          = wordslist.readlines
         selected_words = lines.select {|word| required_length?(word)}
         selected_words.sample.chomp
@@ -29,8 +32,7 @@ class HangmanControls
     end
     
     def display_hangman_frame(position)
-        image         = File.readlines('hangman_image.txt')
-        #lines         = image.readlines
+        image         = File.readlines('./hangman_resources/hangman_image.txt')
         frames        = hangman_frames
         display_frame = frames[position]
         image[display_frame].each do |line|
@@ -53,7 +55,8 @@ class HangmanControls
         p board
         wrong_guesses   = []
         until i==6 || board.none? {|spaces| spaces=='-'}
-            guess = Gamer.letter_guess
+            guess  = Gamer.letter_guess
+            Gamer.game_condition(guess,i,board,wrong_guesses)
             if !check_guess?(word,guess)==true
                 wrong_guesses.push(guess)
                 p"Your wrong guesses:"
@@ -80,10 +83,12 @@ class HangmanControls
     end
 
 end
-class Gamer < HangmanControls 
+class Gamer 
+    attr_reader :name
     def initialize(name)
         @name = name
     end
+
     def self.letter_guess
         p"Guess a letter!"
         guess = gets.chomp.downcase
@@ -93,8 +98,16 @@ class Gamer < HangmanControls
         end
         guess
     end
+
+    def self.game_condition(guess, i, board, wrong_guesses)
+        if guess == 'save'
+            save_game(wrong_guesses, i, board)
+        end
+        if guess == 'load'
+            load_game(name)
+        end
+    end
 end
-player1 = HangmanControls.new 
-player2 = Gamer.new("emeka")
-player1.start_game
-#p player1.dashboard_for_guessing
+controller = HangmanControls.new 
+player     = Gamer.new('emeka')
+controller.start_game
