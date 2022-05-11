@@ -1,25 +1,24 @@
-require 'yaml'
-module SaveGame
-    def save_game(wrong_guesses, i, board)
-        hash                 = {}
-        hash[:wrong_guesses] = wrong_guesses
-        hash[:i]             = i 
-        hash[:board]         = board
-        Dir.mkdir('players') unless File.exists? 'players'
-        player_filename = "./players/#{name}.yaml"
-        File.open(player_filename,'w') do |file|
-            file.puts YAML::dump(hash)
-        end
-    end
-end
+p"To start a new game, press 1. \n To continue a previously saved game, press 2."
+p"To save your current game, press 'save' as your guess when asked for a guess."
+choice = gets.chomp 
 
-module LoadGame 
-    def load_game(name)
-        game_file = "./players/#{name}.yaml"
-        loaded_game_file = File.read(game_file)
-        saved_progress =YAML::load(loaded_game_file)
-        p"Your wrong guesses were #{saved_progress[:wrong_guesses]}"
-        p"The board when you left #{saved_progress[:board]}"
-        saved_progress 
+require 'yaml'
+require_relative 'main.rb'
+require_relative 'modules.rb'
+include LoadGame
+def game_start_sequence(choice)
+    if choice == '1'
+        controller = HangmanControls.new
+        p"Your name:"
+        player_name = gets.chomp
+        player = Gamer.new("#{player_name}")
+        controller.start_game 
+    elsif
+        choice == '2'
+        p"Your name:"
+        player_name = gets.chomp 
+        previous_progress = load_game(name) 
+        continue_game(previous_progress)
     end
 end
+game_start_sequence(choice)

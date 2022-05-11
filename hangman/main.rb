@@ -1,7 +1,6 @@
-require_relative 'game_start_sequence.rb'
-include LoadGame
+require_relative 'modules.rb'
 include SaveGame
-class HangmanControls
+class HangmanControls < Gamer
     def dashboard_for_guessing
         word  = extract_random_guess_word
         board = Array.new(word.length,'-')
@@ -53,6 +52,24 @@ class HangmanControls
         end
     end
 
+    def reply_to_wrong_guess(i, wrong_guesses, guess)
+        wrong_guesses.push(guess)
+        p"Your wrong guesses:"
+        p wrong_guesses
+        display_hangman_frame(i)
+        i+=1
+    end
+
+    def reply_to_correct_guess(board, word, guess)
+        p"Correct guess"
+        #win_track+=1
+        board[word.index(guess)] = guess
+        p"The board:"
+        p board
+        position_of_guess        = word.index(guess)
+        word[position_of_guess]  = nil
+    end
+
     def start_game
         continue_game = ''
         win_track = 0
@@ -66,33 +83,36 @@ class HangmanControls
         wrong_guesses   = []
         until i==6 || board.none? {|spaces| spaces=='-'}
             guess  = Gamer.letter_guess
-            continue_game = Gamer.game_condition(guess,i,board,wrong_guesses)
-            if continue_game == 'saved'
-                p'Game saved!'
+            if guess == 'save'
+                save_game(wrong_guesses, i, board, word)
                 break
             end
             if !check_guess?(word,guess)==true
-                wrong_guesses.push(guess)
-                p"Your wrong guesses:"
-                p wrong_guesses
-                display_hangman_frame(i)
-                i+=1
+                reply_to_wrong_guess(i , wrong_guesses, guess)
             else
-                p"Correct guess"
-                win_track+=1
-                board[word.index(guess)] = guess
-                p"The board:"
-                p board
-                position_of_guess        = word.index(guess)
-                word[position_of_guess]  = nil
+                reply_to_correct_guess(board, word, guess)
             end
         end
-        unless continue_game == 'saved'
-            final_display(word)
+    end
+    
+    def continue_game(previous_progress)
+        board_with_word = [previous_progress[:board],previous_progress[:word]]
+        word            = [previous_progress[:word]]
+        wrong_guesses   = [previous_progress[:wrong_guesses]]
+        i               = [previous_progress[:i]]
+        p"Your wrong guesses were:"
+        p previous_progress[:wrong_guesses]
+        p"The board when you left:"
+        p previous_progress[:board]
+        until i == 6 || previous_progress[:board].none? {|spaces| spaces == '-'}
+            guess = Gamer.letter_guess
+            if !check_guess?(word,guess)==true
+                reply_to_wrong_guess(i, wrong_guesses)
+            else
+                reply_to_correct_guess(board, word, guess)
+            end
         end
     end
-
-
 end
 class Gamer 
     attr_reader :name
@@ -109,17 +129,4 @@ class Gamer
         end
         guess
     end
-
-    def self.game_condition(guess, i, board, wrong_guesses)
-        if guess == 'save'
-            save_game(wrong_guesses, i, board)
-            return 'saved'
-        end
-        if guess == 'load'
-            load_game(name)
-        end
-    end
 end
-controller = HangmanControls.new 
-player     = Gamer.new('emeka')
-controller.start_game
