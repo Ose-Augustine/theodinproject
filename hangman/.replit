@@ -1,0 +1,2 @@
+language = 'ruby'
+run      = 'game_start_sequence.rb'
