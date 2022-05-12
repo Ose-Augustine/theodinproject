@@ -48,7 +48,7 @@ class HangmanControls
         word.include? letter 
     end
 
-    def final_display(word)
+    def final_display(word,win_track)
         if win_track == word.length
             p"You win!"
         else
@@ -62,7 +62,6 @@ class HangmanControls
         p"Your wrong guesses:"
         p wrong_guesses
         display_hangman_frame(i)
-        i+=1
     end
 
     def reply_to_correct_guess(board, word, guess)
@@ -83,20 +82,27 @@ class HangmanControls
         word            = board_with_word[1].split('')
         board           = board_with_word[0]
         real_word       = word.join('')
+        guess_condition = ''
         p"The board for this game"
         p board
         wrong_guesses   = []
         until i==6 || board.none? {|spaces| spaces=='-'}
             guess  = Gamer.letter_guess
             if guess == 'save'
+                guess_condition = guess
                 save_game(wrong_guesses, i, board, word, name)
                 break
             end
             if !check_guess?(word,guess)==true
                 reply_to_wrong_guess(i , wrong_guesses, guess)
+                i+=1
             else
                 reply_to_correct_guess(board, word, guess)
+                win_track+=1
             end
+        end
+        unless guess_condition == 'save'
+            final_display(word,win_track)
         end
     end
     
@@ -104,7 +110,7 @@ class HangmanControls
         board_with_word = [previous_progress[:board],previous_progress[:word]]
         word            = [previous_progress[:word]]
         wrong_guesses   = [previous_progress[:wrong_guesses]]
-        i               = [previous_progress[:i]]
+        i               = previous_progress[:i]
         p"Your wrong guesses were:"
         p previous_progress[:wrong_guesses]
         p"The board when you left:"
@@ -113,6 +119,7 @@ class HangmanControls
             guess = Gamer.letter_guess
             if !check_guess?(word,guess)==true
                 reply_to_wrong_guess(i, wrong_guesses, guess)
+                i += 1
             else
                 reply_to_correct_guess(board, word, guess)
             end
