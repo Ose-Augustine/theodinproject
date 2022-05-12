@@ -1,6 +1,11 @@
 require_relative 'modules.rb'
 include SaveGame
-class HangmanControls < Gamer
+class HangmanControls 
+    attr_reader :name
+    def initialize(name)
+        @name = name 
+    end
+
     def dashboard_for_guessing
         word  = extract_random_guess_word
         board = Array.new(word.length,'-')
@@ -84,7 +89,7 @@ class HangmanControls < Gamer
         until i==6 || board.none? {|spaces| spaces=='-'}
             guess  = Gamer.letter_guess
             if guess == 'save'
-                save_game(wrong_guesses, i, board, word)
+                save_game(wrong_guesses, i, board, word, name)
                 break
             end
             if !check_guess?(word,guess)==true
@@ -107,19 +112,16 @@ class HangmanControls < Gamer
         until i == 6 || previous_progress[:board].none? {|spaces| spaces == '-'}
             guess = Gamer.letter_guess
             if !check_guess?(word,guess)==true
-                reply_to_wrong_guess(i, wrong_guesses)
+                reply_to_wrong_guess(i, wrong_guesses, guess)
             else
                 reply_to_correct_guess(board, word, guess)
             end
         end
     end
 end
-class Gamer 
-    attr_reader :name
-    def initialize(name)
-        @name = name
-    end
 
+class Gamer < HangmanControls
+    attr_reader :name
     def self.letter_guess
         p"Guess a letter!"
         guess = gets.chomp.downcase

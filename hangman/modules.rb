@@ -1,5 +1,5 @@
 module SaveGame
-    def save_game(wrong_guesses, i, board, word)
+    def save_game(wrong_guesses, i, board, word, name)
         hash                 = {}
         hash[:wrong_guesses] = wrong_guesses
         hash[:i]             = i 
