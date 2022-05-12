@@ -22,6 +22,6 @@ module LoadGame
   def load_game(name)
     game_file = "./players/#{name}.yaml"
     loaded_game_file = File.read(game_file)
-    Yaml.safe_load(loaded_game_file)
+    Psych.unsafe_load(loaded_game_file)
   end
 end
