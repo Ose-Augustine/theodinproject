@@ -48,7 +48,7 @@ class HangmanControls
         word.include? letter 
     end
 
-    def final_display(word,win_track)
+    def final_display(word,win_track,real_word)
         if win_track == word.length
             p"You win!"
         else
@@ -75,7 +75,6 @@ class HangmanControls
     end
 
     def start_game
-        continue_game = ''
         win_track = 0
         i = 0
         board_with_word = dashboard_for_guessing
@@ -90,7 +89,7 @@ class HangmanControls
             guess  = Gamer.letter_guess
             if guess == 'save'
                 guess_condition = guess
-                save_game(wrong_guesses, i, board, word, name)
+                save_game(wrong_guesses, i, board, word, name,win_track,real_word)
                 break
             end
             if !check_guess?(word,guess)==true
@@ -102,28 +101,33 @@ class HangmanControls
             end
         end
         unless guess_condition == 'save'
-            final_display(word,win_track)
+            final_display(word,win_track,real_word)
         end
     end
     
     def continue_game(previous_progress)
-        board_with_word = [previous_progress[:board],previous_progress[:word]]
+        #board_with_word = [previous_progress[:board],previous_progress[:word]]
+        real_word       = previous_progress[:real_word]
+        board           = previous_progress[:board]
         word            = [previous_progress[:word]]
         wrong_guesses   = [previous_progress[:wrong_guesses]]
         i               = previous_progress[:i]
+        win_track       = previous_progress[:win_track]
         p"Your wrong guesses were:"
-        p previous_progress[:wrong_guesses]
+        p wrong_guesses
         p"The board when you left:"
-        p previous_progress[:board]
-        until i == 6 || previous_progress[:board].none? {|spaces| spaces == '-'}
+        p board
+        until i == 6 || board.none? {|spaces| spaces == '-'}
             guess = Gamer.letter_guess
             if !check_guess?(word,guess)==true
                 reply_to_wrong_guess(i, wrong_guesses, guess)
                 i += 1
             else
                 reply_to_correct_guess(board, word, guess)
+                win_track += 1
             end
         end
+        final_display(word,win_track,real_word)
     end
 end
 

@@ -1,9 +1,12 @@
 module SaveGame
-    def save_game(wrong_guesses, i, board, word, name)
+    def save_game(wrong_guesses, i, board, word, name,win_track,real_word)
         hash                 = {}
+        hash[:real_word]     = real_word
+        hash[:word]          = word 
         hash[:wrong_guesses] = wrong_guesses
         hash[:i]             = i 
         hash[:board]         = board
+        hash[:win_track]     = win_track
         Dir.mkdir('players') unless File.exists? 'players'
         player_filename = "./players/#{name}.yaml"
         File.open(player_filename,'w') do |file|
