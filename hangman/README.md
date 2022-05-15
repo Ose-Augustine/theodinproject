@@ -6,7 +6,7 @@ This is my first algorithm that involves serialisation using yaml. Apparently ya
 
 ## Features
 
-The game starts by running the game_start_sequence file in your command line. I tried uploading to a repl environment but a bug issue with the PSYCH class came up which didn't happen on my local machine.
+The game starts by running the game_start_sequence file in your command line. To play this game, you can go ahead and fork this repo running game_start_sequence.rb in the command line or play online at [This repl](https://replit.com/@austineBeck04/hangman-1)
 
 The game is set to be the computer against the human. After running the above file, the gamer is propmted with a dialog to save , start a new game or continue from an old game. This feature is made possible by serialisation in ruby.
 
