@@ -6,7 +6,13 @@ class LinkedList
     end
     def append(value)
         new_node = Node.new(value)
-        @value.push(new_node)
+        if @value.empty?
+            @value.push(new_node)
+        else
+            previous_node = @value.last
+            previous_node.link = new_node
+            @value.push(new_node)
+        end
     end 
     def prepend(value)
         new_node = Node.new(value)
