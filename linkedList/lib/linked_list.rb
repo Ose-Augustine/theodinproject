@@ -9,7 +9,7 @@ class LinkedList
     #there is a mutation 
     def linker
         i = 0
-        while i <= @value.length
+        while i < @value.length
             @value[i].link = @value[i+1]
             i += 1
         end
@@ -17,7 +17,9 @@ class LinkedList
     def append(value)
         new_node = Node.new(value)
         @value.push(new_node)
-        self.linker 
+        if @value.length > 1
+            self.linker
+        end
     end 
     def prepend(value)
         new_node = Node.new(value)
@@ -56,17 +58,15 @@ class LinkedList
         @value.insert(index,new_node)
         self.linker
     end
+    def remove_at(index)
+        @value.delete_at(index)
+    end
 end
-
+node = Node.new([1])
 test = LinkedList.new()
 test.append([2])
 test.append([3,4])
 test.append([3,55,6])
 test.append([55,42,55])
-p test.head
-p test.contains?(78)
-p test.tail
-p test.at(2)
-p test.size
-p test.find(42)
-p test.value
+test.insert_at([88,99],1)
+test.value.each {|node| p "This is node:#{node.link.value}\n"}
