@@ -33,7 +33,7 @@ class LinkedList
         return @value.any? {|node| node.value.include?(value)}
     end
     def find(value)
-        selected_node = @value.select {|node| node.value.include?(value)}
+        selected_node = @value.select {|node| node.value.include?(value)}[0]
         return @value.index(selected_node)
     end
 end
