@@ -17,6 +17,7 @@ class LinkedList
     def prepend(value)
         new_node = Node.new(value)
         @value.unshift(new_node)
+        new_node.link = @value[1]
     end
     def size
         counter = 0
