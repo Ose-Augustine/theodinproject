@@ -4,20 +4,25 @@ class LinkedList
     def initialize (value=[])
         @value = value
     end
+
+    #is called to rearrange the linked list anytime
+    #there is a mutation 
+    def linker
+        i = 0
+        while i <= @value.length
+            @value[i].link = @value[i+1]
+            i += 1
+        end
+    end
     def append(value)
         new_node = Node.new(value)
-        if @value.empty?
-            @value.push(new_node)
-        else
-            previous_node = @value.last
-            previous_node.link = new_node
-            @value.push(new_node)
-        end
+        @value.push(new_node)
+        self.linker 
     end 
     def prepend(value)
         new_node = Node.new(value)
         @value.unshift(new_node)
-        new_node.link = @value[1]
+        self.linker
     end
     def size
         counter = 0
@@ -42,6 +47,14 @@ class LinkedList
     def find(value)
         selected_node = @value.select {|node| node.value.include?(value)}[0]
         return @value.index(selected_node)
+    end
+    def to_s
+        @value.each {|node| p node.to_s}
+    end
+    def insert_at (value,index)
+        new_node = Node.new(value)
+        @value.insert(index,new_node)
+        self.linker
     end
 end
 
