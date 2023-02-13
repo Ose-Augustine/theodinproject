@@ -6,26 +6,28 @@ class LinkedList
     end
     def append(value)
         new_node = Node.new(value)
-        self.value.push(new_node)
+        @value.push(new_node)
     end 
     def prepend(value)
         new_node = Node.new(value)
-        self.value.unshift(new_node)
+        @value.unshift(new_node)
     end
     def size
-        self.size
+        counter = 0
+        @value.each {|node| counter += 1}
+        return counter
     end
     def head
-        self.first
+        @value.first
     end
     def tail
-        self.last 
+        @value.last 
     end
     def at(index)
-        self[index]
+        @value[index]
     end
     def pop
-        self.pop
+        @value.pop
     end
     def contains?(value)
         return self.any? {|node| node.include?(value)}
@@ -39,4 +41,5 @@ end
 test = LinkedList.new()
 test.append([2])
 test.append([3,4])
+p test.size
 p test.value
