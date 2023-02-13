@@ -30,16 +30,23 @@ class LinkedList
         @value.pop
     end
     def contains?(value)
-        return self.any? {|node| node.include?(value)}
+        return @value.any? {|node| node.value.include?(value)}
     end
     def find(value)
-        selected_node = self.select? {|node| node.include?(value)}
-        self.index(selected_node)
+        selected_node = @value.select {|node| node.value.include?(value)}
+        return @value.index(selected_node)
     end
 end
 
 test = LinkedList.new()
 test.append([2])
 test.append([3,4])
+test.append([3,55,6])
+test.append([55,42,55])
+p test.head
+p test.contains?(78)
+p test.tail
+p test.at(2)
 p test.size
+p test.find(42)
 p test.value
