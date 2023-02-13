@@ -10,7 +10,7 @@ class LinkedList
     end 
     def prepend(value)
         new_node = Node.new(value)
-        self.unshift(new_node)
+        self.value.unshift(new_node)
     end
     def size
         self.size
