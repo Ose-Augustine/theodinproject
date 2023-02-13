@@ -6,7 +6,7 @@ class LinkedList
     end
     def append(value)
         new_node = Node.new(value)
-        self.append(new_node)
+        self.value.push(new_node)
     end 
     def prepend(value)
         new_node = Node.new(value)
@@ -37,5 +37,6 @@ class LinkedList
 end
 
 test = LinkedList.new()
-test.value = [2]
-p test
+test.append([2])
+test.append([3,4])
+p test.value
