@@ -1,6 +1,6 @@
 require_relative node
 class LinkedList 
-    def initialize (value)
+    def initialize (value=[])
         @value = value
     end
     def append(value)
