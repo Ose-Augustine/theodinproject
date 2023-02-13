@@ -1,5 +1,6 @@
-require_relative node
+require_relative 'node'
 class LinkedList 
+    attr_accessor :value
     def initialize (value=[])
         @value = value
     end
@@ -34,3 +35,7 @@ class LinkedList
         self.index(selected_node)
     end
 end
+
+test = LinkedList.new()
+test.value = [2]
+p test
